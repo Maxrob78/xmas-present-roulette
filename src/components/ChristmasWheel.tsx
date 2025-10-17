@@ -30,8 +30,15 @@ const ChristmasWheel = forwardRef<ChristmasWheelRef, ChristmasWheelProps>(
 
       const index = entries.findIndex(([id]) => id === pickedId);
       const rotationPerSegment = 360 / count;
+      
+      // Calculer l'angle du centre du segment choisi
+      const segmentStartAngle = index * rotationPerSegment;
+      const segmentCenterAngle = segmentStartAngle + rotationPerSegment / 2;
+      
+      // Rotation pour aligner le centre du segment avec l'indicateur (en haut = 0°)
+      // On veut faire plusieurs tours (5) puis s'arrêter sur le bon segment
       const baseRotation = 5 * 360;
-      const targetRotation = baseRotation + index * rotationPerSegment + Math.random() * rotationPerSegment;
+      const targetRotation = baseRotation - segmentCenterAngle + Math.random() * 10 - 5; // ±5° de variation
       
       setRotation(targetRotation);
 
