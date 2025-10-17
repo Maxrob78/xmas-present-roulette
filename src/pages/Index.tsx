@@ -75,12 +75,11 @@ const Index = () => {
       return;
     }
 
-    const pool = Object.entries(people)
-      .filter(([id, p]) => p.available && id !== currentUser)
-      .map(([id]) => id);
+    const pool = Object.keys(people)
+      .filter((id) => id !== currentUser);
 
     if (pool.length === 0) {
-      toast.error('Personne n\'est disponible !');
+      toast.error('Personne d\'autre n\'est inscrit !');
       return;
     }
 
@@ -94,13 +93,7 @@ const Index = () => {
 
     setTimeout(async () => {
       try {
-        const targetRef = doc(db, 'people', picked);
         const meRef = doc(db, 'people', currentUser);
-        
-        await updateDoc(targetRef, {
-          available: false,
-          assignedTo: currentUser
-        });
         
         await updateDoc(meRef, {
           assignedTo: picked
